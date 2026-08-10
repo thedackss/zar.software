@@ -12,7 +12,8 @@
         "astro": "astro",
         "format": "prettier --write . && eslint . --fix",
         "format:check": "prettier --check .",
-        "lint": "eslint ."
+        "lint": "eslint .",
+        "start": "node ./dist/server/entry.mjs"
     },
     "dependencies": {
         "@astrojs/node": "^11.1.0",
