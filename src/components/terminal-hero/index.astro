@@ -1,0 +1,95 @@
+---
+import styles from "./index.module.scss";
+import Terminal from "@/components/terminal/index.astro";
+import { buildCommands } from "@/components/terminal/commands";
+import { useTranslations, type Lang } from "@/i18n/ui";
+import { routes } from "@/i18n/routes";
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const commands = buildCommands(lang);
+---
+
+<section class={styles.hero}>
+    <div class={styles.wrap}>
+        <div class={styles.copy}>
+            <div class={styles.chip}>
+                <span class={styles.dot}></span>
+                <span>{t("hero.chip")}</span>
+            </div>
+            <h1>
+                {t("hero.title.pre")}{" "}
+                <span>{t("hero.title.accent")}</span>
+            </h1>
+            <p class={styles.lead}>{t("hero.lead")}</p>
+            <div class={styles.ctas}>
+                <a href={routes.contact[lang]} class={styles.primary}>
+                    {t("hero.cta.primary")}
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path d="M5 12h14"></path>
+                        <path d="m12 5 7 7-7 7"></path>
+                    </svg>
+                </a>
+                <a href={routes.projects[lang]} class={styles.secondary}>
+                    {t("hero.cta.secondary")}
+                </a>
+            </div>
+        </div>
+
+        <div class={styles.termWrap}>
+            <Terminal
+                title="diego@zar: ~"
+                tab="0"
+                shell="zsh"
+                writable
+                commands={commands}
+                notFound={t("term.notfound")}
+                inputDelay="5.4s"
+            >
+                <p class="line" style="--delay: 0.3s">
+                    <span class="p">$</span><span
+                        class="cmd"
+                        style="--typing-delay: 0.3s; --typing-duration: 0.3s;">whoami</span
+                    >
+                </p>
+                <p class="out" style="--delay: 0.9s">{t("term.whoami.out")}</p>
+                <p class="line" style="--delay: 1.4s">
+                    <span class="p">$</span><span
+                        class="cmd"
+                        style="--typing-delay: 1.4s; --typing-duration: 0.7s;">zar --services</span
+                    >
+                </p>
+                <p class="out" style="--delay: 2.4s">{t("term.services.l1")}</p>
+                <p class="out" style="--delay: 2.6s">{t("term.services.l2")}</p>
+                <p class="out" style="--delay: 2.8s">{t("term.services.l3")}</p>
+                <p class="line" style="--delay: 3.4s">
+                    <span class="p">$</span><span
+                        class="cmd"
+                        style="--typing-delay: 3.4s; --typing-duration: 1.15s;"
+                        >zar deploy --production</span
+                    >
+                </p>
+                <p class="out ok" style="--delay: 4.9s">{t("term.deploy.out")}</p>
+                <Fragment slot="status">
+                    <span class={styles.session}>zar ▸ 0:zsh*</span>
+                    <span class={styles.meta}>{lang} · utf-8</span>
+                </Fragment>
+            </Terminal>
+        </div>
+    </div>
+</section>

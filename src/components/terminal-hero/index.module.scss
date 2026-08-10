@@ -1,0 +1,171 @@
+.hero {
+    width: 100%;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc(0.25rem * 28) 0 calc(0.25rem * 12);
+
+    position: relative;
+    overflow: hidden;
+
+    // subtle grid background, like a motherboard PCB
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+
+        background-image:
+            linear-gradient(
+                color-mix(in oklch, var(--color-accent) 6%, transparent) 1px,
+                transparent 1px
+            ),
+            linear-gradient(
+                90deg,
+                color-mix(in oklch, var(--color-accent) 6%, transparent) 1px,
+                transparent 1px
+            );
+        background-size: 3rem 3rem;
+        mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+
+        pointer-events: none;
+    }
+
+    .wrap {
+        width: 90%;
+        max-width: 1280px;
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: calc(0.25rem * 16);
+        align-items: center;
+
+        position: relative;
+    }
+
+    .copy {
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4.2rem);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            margin: calc(0.25rem * 5) 0 calc(0.25rem * 4);
+
+            span {
+                color: var(--color-accent);
+            }
+        }
+    }
+
+    .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: calc(0.25rem * 2.5);
+        padding: calc(0.25rem * 1.5) calc(0.25rem * 3.5);
+        width: fit-content;
+
+        border: 1px solid color-mix(in oklch, var(--color-accent) 40%, transparent);
+        border-radius: 99px;
+        background: color-mix(in oklch, var(--color-accent) 8%, transparent);
+        font-size: 0.85rem;
+
+        .dot {
+            width: calc(0.25rem * 2);
+            height: calc(0.25rem * 2);
+
+            border-radius: 50%;
+            background: var(--color-accent);
+            animation: pulse 2s ease-in-out infinite;
+        }
+    }
+
+    .lead {
+        font-size: 1.15rem;
+        max-width: 34rem;
+        line-height: 1.6;
+
+        color: color-mix(in oklch, var(--color-text) 85%, transparent);
+    }
+
+    .ctas {
+        display: flex;
+        flex-wrap: wrap;
+        gap: calc(0.25rem * 4);
+        margin-top: calc(0.25rem * 7);
+
+        a {
+            display: inline-flex;
+            align-items: center;
+            gap: calc(0.25rem * 1.5);
+            padding: calc(0.25rem * 3.25) calc(0.25rem * 5.25);
+
+            border-radius: 0.5rem;
+            font-weight: 600;
+
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .primary {
+            background: var(--color-accent);
+            color: var(--color-void);
+            box-shadow: 0 0 1.5rem color-mix(in oklch, var(--color-accent) 35%, transparent);
+
+            svg {
+                transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            &:hover {
+                color: var(--color-void);
+
+                svg {
+                    transform: translateX(0.25rem);
+                }
+            }
+        }
+
+        .secondary {
+            border: 1px solid color-mix(in oklch, var(--color-text) 25%, transparent);
+            color: var(--color-text);
+
+            &:hover {
+                border-color: color-mix(in oklch, var(--color-accent) 80%, transparent);
+                background: color-mix(in oklch, var(--color-accent) 12%, transparent);
+                color: var(--color-text);
+            }
+        }
+    }
+
+    // status-bar content slotted into the shared Terminal
+    .session {
+        color: var(--color-accent);
+    }
+
+    .meta {
+        color: var(--color-muted);
+        text-transform: uppercase;
+    }
+
+    @media (max-width: 900px) {
+        .wrap {
+            grid-template-columns: 1fr;
+            gap: calc(0.25rem * 12);
+        }
+
+        .termWrap {
+            --term-font: 0.8rem;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .chip {
+            .dot {
+                animation: none;
+            }
+        }
+    }
+}
+
+@keyframes pulse {
+    50% {
+        opacity: 0.4;
+    }
+}

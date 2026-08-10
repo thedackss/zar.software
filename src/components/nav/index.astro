@@ -1,0 +1,27 @@
+---
+import styles from "./index.module.scss";
+import { useTranslations, type Lang } from "@/i18n/ui";
+import { routes, type RouteKey } from "@/i18n/routes";
+
+interface Props {
+    lang: Lang;
+    page?: RouteKey;
+}
+
+const { lang, page = "home" } = Astro.props;
+const t = useTranslations(lang);
+
+const other = lang === "es" ? "en" : "es";
+const langTarget = `${routes[page][other]}?lang=${other}`;
+---
+
+<nav class={styles.nav}>
+    <a class={styles.brand} href={routes.home[lang]}>zar.software</a>
+
+    <div class={styles.links}>
+        <a href={routes.services[lang]}>{t("nav.services")}</a>
+        <a href={routes.projects[lang]}>{t("nav.projects")}</a>
+        <a href={routes.contact[lang]}>{t("nav.contact")}</a>
+        <a class={styles.lang} href={langTarget} rel="nofollow">{other.toUpperCase()}</a>
+    </div>
+</nav>

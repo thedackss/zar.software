@@ -1,0 +1,27 @@
+---
+import styles from "./index.module.scss";
+import { site } from "@/config";
+import { useTranslations, type Lang } from "@/i18n/ui";
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<footer class={styles.footer}>
+    <p>{t("footer.rights")}</p>
+
+    <div class={styles.socials}>
+        {
+            site.socials.map((social) => (
+                <a href={social.href} target="_blank" rel="noopener noreferrer">
+                    {social.label}
+                </a>
+            ))
+        }
+        <a href="https://zar.mx" target="_blank" rel="noopener noreferrer"> zar.mx </a>
+    </div>
+</footer>
