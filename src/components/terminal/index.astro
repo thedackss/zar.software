@@ -1,0 +1,232 @@
+---
+import styles from "./index.module.scss";
+import type { CommandOutput } from "./commands";
+
+interface Props {
+    title: string;
+    tab?: string;
+    shell?: string;
+    size?: "normal" | "small";
+    tone?: "accent" | "error";
+    glass?: boolean;
+    writable?: boolean;
+    commands?: Record<string, CommandOutput[]>;
+    notFound?: string;
+    inputDelay?: string;
+    prefill?: string;
+}
+
+const {
+    title,
+    tab = "0",
+    shell,
+    size = "normal",
+    tone = "accent",
+    glass = false,
+    writable = false,
+    commands,
+    notFound,
+    inputDelay,
+    prefill,
+} = Astro.props;
+---
+
+<div
+    class:list={[
+        styles.term,
+        size === "small" && styles.small,
+        tone === "error" && styles.error,
+        glass && styles.glass,
+    ]}
+    data-commands={writable ? JSON.stringify({ commands: commands ?? {}, notFound }) : undefined}
+>
+    <div class={styles.bar}>
+        <span class={styles.tab}>{tab}</span>
+        <p>{title}</p>
+        {shell && <span class={styles.shell}>{shell}</span>}
+    </div>
+    <div class={styles.screen}>
+        <slot />
+        {
+            writable && (
+                <form
+                    class:list={["line", styles.inputLine]}
+                    style={inputDelay ? `--delay: ${inputDelay}` : undefined}
+                >
+                    <span class="p">$</span>
+                    <input
+                        type="text"
+                        value={prefill}
+                        autocomplete="off"
+                        autocapitalize="off"
+                        spellcheck="false"
+                        aria-label={title}
+                    />
+                </form>
+            )
+        }
+    </div>
+    {
+        Astro.slots.has("status") && (
+            <div class={styles.status}>
+                <slot name="status" />
+            </div>
+        )
+    }
+</div>
+
+<script>
+    const LANG_LABELS: Record<string, string> = { es: "es — español", en: "en — english" };
+
+    // Scripted intros: type .cmd spans character-by-character. Done in JS
+    // (not a CSS width animation) so the last glyph can never clip, whatever
+    // the browser's ch rounding does.
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    document.querySelectorAll<HTMLElement>(".cmd").forEach((el) => {
+        const text = (el.textContent ?? "").trim();
+        const style = getComputedStyle(el);
+        const delay = parseFloat(style.getPropertyValue("--typing-delay")) || 0;
+        const duration = parseFloat(style.getPropertyValue("--typing-duration")) || 1.1;
+
+        el.style.visibility = "visible";
+        if (reduceMotion || !text) {
+            el.textContent = text;
+            return;
+        }
+
+        el.textContent = "";
+        el.classList.add("typing");
+        window.setTimeout(() => {
+            let shown = 0;
+            const timer = window.setInterval(
+                () => {
+                    shown += 1;
+                    el.textContent = text.slice(0, shown);
+                    if (shown >= text.length) {
+                        window.clearInterval(timer);
+                        el.classList.remove("typing");
+                    }
+                },
+                (duration * 1000) / text.length,
+            );
+        }, delay * 1000);
+    });
+
+    type CommandOutput = string | { text: string; kind: "ok" | "err" };
+
+    document.querySelectorAll<HTMLElement>("[data-commands]").forEach((term) => {
+        const config: { commands: Record<string, CommandOutput[]>; notFound?: string } = JSON.parse(
+            term.dataset.commands ?? "{}",
+        );
+        const form = term.querySelector("form");
+        const input = form?.querySelector("input");
+        const screen = form?.parentElement;
+        if (!form || !input || !screen) return;
+
+        term.addEventListener("click", () => input.focus());
+
+        // ready to type on load; skipped on touch devices so the keyboard
+        // doesn't pop over the page
+        if (window.matchMedia("(pointer: fine)").matches) {
+            input.focus({ preventScroll: true });
+            // caret after the prefilled text, not before it
+            const end = input.value.length;
+            input.setSelectionRange(end, end);
+        }
+
+        function print(classes: string, text: string, prompt = false) {
+            const p = document.createElement("p");
+            p.className = classes;
+            // interactive output prints instantly, unlike the scripted intro
+            p.style.animation = "none";
+            p.style.opacity = "1";
+            if (prompt) {
+                const dollar = document.createElement("span");
+                dollar.className = "p";
+                dollar.textContent = "$";
+                p.append(dollar, text);
+            } else {
+                p.textContent = text;
+            }
+            screen!.insertBefore(p, form);
+        }
+
+        function detectedLang(): string {
+            const cookie = document.cookie.match(/(?:^|; )lang=(es|en)/)?.[1];
+            const nav = navigator.language.slice(0, 2).toLowerCase();
+            return cookie ?? (nav in LANG_LABELS ? nav : document.documentElement.lang);
+        }
+
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            const cmd = input.value.trim().replace(/\s+/g, " ");
+            input.value = "";
+            if (!cmd) return;
+
+            const lower = cmd.toLowerCase();
+            const output = config.commands[lower];
+
+            if (output?.[0] === "__clear__") {
+                while (screen.firstElementChild && screen.firstElementChild !== form) {
+                    screen.firstElementChild.remove();
+                }
+                return;
+            }
+
+            print("line", cmd, true);
+
+            // "zar open <path>" takes an argument, so it's matched by prefix
+            const openKey = Object.keys(config.commands).find(
+                (key) => config.commands[key]?.[0] === "__open__",
+            );
+            if (openKey && (lower === openKey || lower.startsWith(`${openKey} `))) {
+                const arg = cmd.slice(openKey.length).trim();
+                const usage = config.commands[openKey]?.[1];
+                if (!arg) {
+                    if (typeof usage === "string") print("out", usage);
+                } else {
+                    const target =
+                        arg === "~"
+                            ? `/${document.documentElement.lang}/`
+                            : arg.startsWith("/")
+                              ? arg
+                              : `/${arg}`;
+                    print("out", `→ ${target}`);
+                    setTimeout(() => {
+                        window.location.href = target;
+                    }, 400);
+                }
+                form.scrollIntoView({ block: "nearest", behavior: "smooth" });
+                return;
+            }
+
+            if (output) {
+                for (const line of output) {
+                    const setLang = typeof line === "string" && /^__setlang:(es|en)__$/.exec(line);
+                    if (line === "__detect__") {
+                        const lang = detectedLang();
+                        print("out", LANG_LABELS[lang] ?? lang);
+                    } else if (setLang) {
+                        const target = setLang[1]!;
+                        print("out ok", `${LANG_LABELS[target]} ✓`);
+                        // ?lang= lets the middleware persist the choice
+                        setTimeout(() => {
+                            window.location.href = `/${target}/?lang=${target}`;
+                        }, 600);
+                    } else if (typeof line === "string") {
+                        print("out", line);
+                    } else {
+                        print(`out ${line.kind}`, line.text);
+                    }
+                }
+            } else {
+                const notFound = config.notFound ?? "zsh: {cmd}: command not found";
+                print("out err", notFound.replace("{cmd}", cmd));
+            }
+
+            form.scrollIntoView({ block: "nearest", behavior: "smooth" });
+        });
+    });
+</script>

@@ -1,0 +1,242 @@
+// Shared terminal window: tiling-WM chrome (session tab, hard shadow,
+// scanlines) plus the typed-session text styles for slotted content.
+//
+// Slot API (plain classes on slotted elements):
+//   .line          prompt line, revealed at var(--delay, 0s)
+//   .out           output line, dimmed, revealed at var(--delay, 0s)
+//   .p             the "$" prompt glyph
+//   .ok / .err     success / error output color
+//   .cursor        blinking block cursor
+//   .cmd           typewriter span, typed by JS character-by-character;
+//                  set --typing-delay and --typing-duration
+.term {
+    width: 100%;
+
+    border: 1px solid color-mix(in oklch, var(--color-accent) 30%, transparent);
+    background: rgba(10, 10, 12, 0.85);
+    box-shadow:
+        0 0 3rem color-mix(in oklch, var(--color-accent) 15%, transparent),
+        0.75rem 0.75rem 0 color-mix(in oklch, var(--color-accent) 10%, transparent);
+
+    overflow: hidden;
+    font-size: var(--term-font, 0.92rem);
+
+    .bar {
+        display: flex;
+        align-items: stretch;
+        gap: calc(0.25rem * 1.75);
+
+        background: color-mix(in oklch, var(--color-text) 6%, transparent);
+        border-bottom: 1px solid color-mix(in oklch, var(--color-accent) 20%, transparent);
+
+        p {
+            margin-inline: auto;
+            align-self: center;
+            font-size: 0.8rem;
+            color: color-mix(in oklch, var(--color-text) 60%, transparent);
+        }
+    }
+
+    .tab {
+        display: inline-flex;
+        align-items: center;
+        padding: calc(0.25rem * 1.5) calc(0.25rem * 3);
+
+        background: var(--color-accent);
+        color: var(--color-void);
+        font-size: 0.8rem;
+        font-weight: 700;
+    }
+
+    .shell {
+        align-self: center;
+        padding-right: calc(0.25rem * 3);
+
+        font-size: 0.8rem;
+        color: var(--color-muted);
+    }
+
+    .screen {
+        display: flex;
+        flex-direction: column;
+        gap: calc(0.25rem * 1.75);
+        padding: calc(0.25rem * 5.25) calc(0.25rem * 5.5) calc(0.25rem * 6.5);
+
+        position: relative;
+        overflow-wrap: anywhere;
+
+        // writable terminals keep a fixed height and scroll like a real one
+        &:has(> form) {
+            height: var(--term-screen-height, 22rem);
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+
+        // faint CRT scanlines
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+
+            background: repeating-linear-gradient(
+                0deg,
+                transparent 0 2px,
+                rgba(255, 255, 255, 0.015) 2px 3px
+            );
+
+            pointer-events: none;
+        }
+
+        :global(.line),
+        :global(.out) {
+            opacity: 0;
+            animation: reveal 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation-delay: var(--delay, 0s);
+        }
+
+        :global(.p) {
+            color: var(--color-accent);
+            font-weight: 700;
+            margin-right: calc(0.25rem * 1.25);
+        }
+
+        :global(.out) {
+            padding-left: calc(0.25rem * 4.5);
+            white-space: pre-wrap;
+
+            color: color-mix(in oklch, var(--color-text) 75%, transparent);
+        }
+
+        :global(.ok) {
+            color: #28c840;
+        }
+
+        :global(.err) {
+            color: #ff5f57;
+        }
+
+        :global(.cursor) {
+            display: inline-block;
+            width: 0.6em;
+            height: 1.1em;
+            margin-left: calc(0.25rem * 1);
+
+            background: var(--color-accent);
+            vertical-align: text-bottom;
+            animation: blink 1s steps(1) infinite;
+        }
+
+        // typed by JS character-by-character (no width tricks — a CSS ch-based
+        // animation clipped the last glyph in Firefox); hidden until the
+        // script takes over so the full text never flashes
+        :global(.cmd) {
+            visibility: hidden;
+            white-space: pre;
+        }
+
+        :global(.cmd.typing)::after {
+            content: "";
+            display: inline-block;
+            width: 0.6ch;
+            height: 1.1em;
+            margin-left: 1px;
+
+            background: var(--color-accent);
+            vertical-align: text-bottom;
+        }
+    }
+
+    .inputLine {
+        display: flex;
+        align-items: center;
+
+        input {
+            flex: 1;
+            min-width: 0;
+            padding: 0;
+
+            border: none;
+            background: none;
+            outline: none;
+            color: var(--color-text);
+            font-size: inherit;
+            caret-color: var(--color-accent);
+        }
+    }
+
+    .status {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: calc(0.25rem * 1.25) calc(0.25rem * 3);
+
+        background: color-mix(in oklch, var(--color-text) 6%, transparent);
+        border-top: 1px solid color-mix(in oklch, var(--color-accent) 20%, transparent);
+        font-size: 0.75rem;
+    }
+
+    // ── variants ──
+    &.small {
+        box-shadow:
+            0 0 2rem color-mix(in oklch, var(--color-accent) 12%, transparent),
+            0.5rem 0.5rem 0 color-mix(in oklch, var(--color-accent) 10%, transparent);
+
+        font-size: var(--term-font, 0.85rem);
+
+        .bar {
+            gap: calc(0.25rem * 1.5);
+
+            p {
+                font-size: 0.75rem;
+            }
+        }
+
+        .tab {
+            padding: calc(0.25rem * 1) calc(0.25rem * 2.5);
+
+            font-size: 0.75rem;
+        }
+
+        .screen {
+            gap: calc(0.25rem * 1.5);
+            padding: calc(0.25rem * 3.5) calc(0.25rem * 4);
+        }
+    }
+
+    &.error {
+        .tab {
+            background: #ff5f57;
+        }
+    }
+
+    &.glass {
+        background: color-mix(in oklch, var(--color-void) 70%, transparent);
+        backdrop-filter: blur(12px);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .screen {
+            :global(.line),
+            :global(.out) {
+                animation-duration: 0s;
+                animation-delay: 0s;
+            }
+
+            :global(.cursor) {
+                animation: none;
+            }
+        }
+    }
+}
+
+@keyframes reveal {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
