@@ -1,0 +1,85 @@
+---
+import Base from "@/layouts/base/index.astro";
+import Nav from "@/components/nav/index.astro";
+import TerminalHero from "@/components/terminal-hero/index.astro";
+import Services from "@/components/services/index.astro";
+import Projects from "@/components/projects/index.astro";
+import Contact from "@/components/contact/index.astro";
+import Footer from "@/components/footer/index.astro";
+import LangModal from "@/components/lang-modal/index.astro";
+import { useTranslations, type Lang } from "@/i18n/ui";
+import { routes, type RouteKey } from "@/i18n/routes";
+import { preferredLang } from "@/i18n/negotiate";
+
+interface Props {
+    lang: Lang;
+    page?: RouteKey;
+}
+
+const { lang, page = "home" } = Astro.props;
+const t = useTranslations(lang);
+
+// The page is in one language but the visitor prefers the other: offer the
+// switch, unless they snoozed the suggestion recently.
+const preferred = preferredLang(Astro.request, Astro.cookies.get("lang")?.value);
+const snoozed = Astro.cookies.has("lang-suggest-snooze");
+const suggest = !snoozed && preferred && preferred !== lang ? preferred : undefined;
+
+const titles: Partial<Record<RouteKey, string>> = {
+    services: t("nav.services"),
+    projects: t("nav.projects"),
+    contact: t("nav.contact"),
+};
+
+// Single-page setup: every route serves this same landing, scrolled to its
+// section. Maps the current language's paths to section ids for the script.
+const sectionByPath = JSON.stringify(
+    Object.fromEntries(Object.entries(routes).map(([key, paths]) => [paths[lang], key])),
+);
+---
+
+<Base lang={lang} page={page} title={titles[page]}>
+    <Nav lang={lang} page={page} />
+    <main data-section={page === "home" ? undefined : page} data-routes={sectionByPath}>
+        <TerminalHero lang={lang} />
+        <Services lang={lang} />
+        <Projects lang={lang} />
+        <Contact lang={lang} />
+    </main>
+    <Footer lang={lang} />
+    {suggest && <LangModal suggest={suggest} target={`${routes[page][suggest]}?lang=${suggest}`} />}
+</Base>
+
+<script>
+    const main = document.querySelector("main[data-routes]");
+    const sectionByPath: Record<string, string> = JSON.parse(
+        main?.getAttribute("data-routes") ?? "{}",
+    );
+
+    function scrollToSection(key: string, smooth: boolean) {
+        const behavior = smooth ? ("smooth" as const) : ("instant" as const);
+        if (key === "home") window.scrollTo({ top: 0, behavior });
+        else document.getElementById(key)?.scrollIntoView({ behavior });
+    }
+
+    const initial = main?.getAttribute("data-section");
+    if (initial) requestAnimationFrame(() => scrollToSection(initial, false));
+
+    // Route links that map to a section on this page scroll instead of reloading.
+    document.addEventListener("click", (event) => {
+        const anchor = (event.target as Element).closest("a");
+        if (!anchor || anchor.origin !== location.origin || anchor.search) return;
+
+        const key = sectionByPath[anchor.pathname];
+        if (!key) return;
+
+        event.preventDefault();
+        history.pushState(null, "", anchor.pathname);
+        scrollToSection(key, true);
+    });
+
+    window.addEventListener("popstate", () => {
+        const key = sectionByPath[location.pathname];
+        if (key) scrollToSection(key, true);
+    });
+</script>
