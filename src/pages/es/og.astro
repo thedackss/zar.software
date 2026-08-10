@@ -1,22 +1,5 @@
 ---
-// Internal render target for public/og.png (1200x630). Regenerate with:
-// dev server running → dev server running, shoot /es/og with playwright at 1200x630, save to public/og.png.
-import "../og.scss";
+import Og from "@/layouts/og/index.astro";
 ---
 
-<html lang="es">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="robots" content="noindex" />
-        <title>og</title>
-    </head>
-    <body>
-        <main class="card">
-            <div class="grid" aria-hidden="true"></div>
-            <p class="prompt">$ whoami</p>
-            <h1>zar<span>.software</span></h1>
-            <p class="tagline">páginas web a la medida · custom-built websites</p>
-            <p class="deploy"><span class="ok">✓</span> zar.software</p>
-        </main>
-    </body>
-</html>
+<Og lang="es" />

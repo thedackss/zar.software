@@ -1,0 +1,35 @@
+---
+// Internal render target for the social images (1200x630). Regenerate with the
+// dev server running: screenshot /es/og → public/og-es.png and /en/og →
+// public/og-en.png with playwright at exactly 1200x630.
+import "@/pages/og.scss";
+import type { Lang } from "@/i18n/ui";
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const taglines: Record<Lang, string> = {
+    es: "páginas web a la medida",
+    en: "custom-built websites",
+};
+---
+
+<html lang={lang}>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="robots" content="noindex" />
+        <title>og</title>
+    </head>
+    <body>
+        <main class="card">
+            <div class="grid" aria-hidden="true"></div>
+            <p class="prompt">$ whoami</p>
+            <h1>zar<span>.software</span></h1>
+            <p class="tagline">{taglines[lang]}</p>
+            <p class="deploy"><span class="ok">✓</span> zar.software</p>
+        </main>
+    </body>
+</html>
