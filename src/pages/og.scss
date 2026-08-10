@@ -78,13 +78,16 @@ body {
     }
 
     .deploy {
+        display: flex;
+        align-items: center;
+        gap: 14px;
         font-size: 30px;
         margin-top: 56px;
 
         color: var(--color-muted);
 
-        .ok {
-            color: #28c840;
+        img {
+            height: 36px;
         }
     }
 }
