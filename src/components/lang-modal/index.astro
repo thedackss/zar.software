@@ -1,0 +1,51 @@
+---
+import styles from "./index.module.scss";
+import Terminal from "@/components/terminal/index.astro";
+import { site } from "@/config";
+import { useTranslations, type Lang } from "@/i18n/ui";
+
+interface Props {
+    suggest: Lang;
+    target: string;
+}
+
+const { suggest, target } = Astro.props;
+const t = useTranslations(suggest);
+
+const cmd = "lang --detect";
+const detected = suggest === "en" ? "en — english" : "es — español";
+---
+
+<aside
+    class={styles.modal}
+    role="dialog"
+    aria-label={t("langmodal.prompt")}
+    data-snooze-hours={site.langSuggestSnoozeHours}
+>
+    <Terminal title="zar lang" tab="?" size="small" glass>
+        <p class="line" style="--delay: 1.4s">
+            <span class="p">$</span><span
+                class="cmd"
+                style="--typing-delay: 1.4s; --typing-duration: 0.65s;"
+            >
+                {cmd}
+            </span>
+        </p>
+        <p class="out" style="--delay: 2.3s">{detected}</p>
+        <p class="out" style="--delay: 2.9s">
+            → {t("langmodal.prompt")}
+            <a href={target} class={styles.yes}>[{t("langmodal.yes")}]</a>
+            <button type="button" class={styles.no}>[{t("langmodal.no")}]</button>
+        </p>
+    </Terminal>
+</aside>
+
+<script>
+    const modal = document.querySelector<HTMLElement>("aside[data-snooze-hours]");
+
+    modal?.querySelector("button")?.addEventListener("click", () => {
+        const hours = Number(modal.dataset.snoozeHours ?? 12);
+        document.cookie = `lang-suggest-snooze=1; path=/; max-age=${hours * 3600}`;
+        modal.remove();
+    });
+</script>
