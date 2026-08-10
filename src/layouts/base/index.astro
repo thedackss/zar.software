@@ -1,0 +1,37 @@
+---
+import "@/pages/index.scss";
+import { site } from "@/config";
+import { useTranslations, type Lang } from "@/i18n/ui";
+import { routes, type RouteKey } from "@/i18n/routes";
+
+interface Props {
+    lang: Lang;
+    page?: RouteKey;
+    title?: string;
+}
+
+const { lang, page = "home", title } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<html lang={lang}>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{title ? `${title} — ${site.name}` : t("meta.title")}</title>
+        <meta name="description" content={t("meta.description")} />
+        <link rel="canonical" href={`${site.url}${routes[page][lang]}`} />
+        <link rel="alternate" hreflang="es" href={`${site.url}${routes[page].es}`} />
+        <link rel="alternate" hreflang="en" href={`${site.url}${routes[page].en}`} />
+        <link rel="alternate" hreflang="x-default" href={`${site.url}/`} />
+        <meta property="og:title" content={title ?? t("meta.title")} />
+        <meta property="og:description" content={t("meta.description")} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`${site.url}${routes[page][lang]}`} />
+    </head>
+    <body>
+        <slot />
+    </body>
+</html>

@@ -1,0 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=Geist+Mono:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+    --color-void: #050505;
+    --color-text: #fafafa;
+    --color-muted: #525252;
+    --color-accent: #f8c301;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Geist Mono", monospace;
+
+    img {
+        vertical-align: top;
+    }
+
+    p {
+        line-height: 1lh;
+    }
+
+    svg {
+        pointer-events: none;
+    }
+
+    a {
+        text-decoration: none;
+        color: color-mix(in oklch, var(--color-accent) 80%, transparent);
+        transition: color 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+
+        &:hover {
+            color: var(--color-accent);
+        }
+    }
+
+    &:focus-visible {
+        outline: 2px solid rgba(from var(--color-accent) r g b / 0.15);
+    }
+
+    &::selection {
+        background: color-mix(in oklch, var(--color-accent) 20%, transparent);
+    }
+}
+
+html {
+    background: var(--color-void) !important;
+    scroll-behavior: smooth;
+
+    body {
+        background: var(--color-void);
+        color: var(--color-text);
+
+        font-family: "Geist Mono", monospace;
+
+        min-height: 100dvh;
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+
+        main {
+            flex: 1;
+
+            section {
+                scroll-margin-top: calc(0.25rem * 14);
+            }
+        }
+    }
+}
