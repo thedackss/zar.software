@@ -1,0 +1,29 @@
+---
+import Base from "@/layouts/base/index.astro";
+import Nav from "@/components/nav/index.astro";
+import NotFound from "@/components/not-found/index.astro";
+import Footer from "@/components/footer/index.astro";
+import type { Lang } from "@/i18n/ui";
+import { preferredLang } from "@/i18n/negotiate";
+
+// The URL's locale prefix wins; otherwise same negotiation as "/":
+// cookie choice > Accept-Language > Spanish.
+const path = Astro.url.pathname;
+
+const prefixed = /^\/(es|en)(\/|$)/.exec(path)?.[1] as Lang | undefined;
+
+const preferred = preferredLang(Astro.request, Astro.cookies.get("lang")?.value);
+
+const lang: Lang = prefixed ?? preferred ?? "es";
+
+// URL prefix won but the visitor prefers the other language: offer the switch.
+const suggest = prefixed && preferred && preferred !== prefixed ? preferred : undefined;
+---
+
+<Base lang={lang} title="404">
+    <Nav lang={lang} />
+    <main>
+        <NotFound lang={lang} path={path} suggest={suggest} />
+    </main>
+    <Footer lang={lang} />
+</Base>

@@ -1,0 +1,48 @@
+---
+import styles from "./index.module.scss";
+import Terminal from "@/components/terminal/index.astro";
+import { buildCommands } from "@/components/terminal/commands";
+import { useTranslations, type Lang } from "@/i18n/ui";
+import { routes } from "@/i18n/routes";
+
+interface Props {
+    lang: Lang;
+    path: string;
+    suggest?: Lang;
+}
+
+const { lang, path, suggest } = Astro.props;
+const t = useTranslations(lang);
+const tSuggest = suggest && useTranslations(suggest);
+---
+
+<section class={styles.notFound}>
+    <Terminal
+        title="diego@zar: ~"
+        tab="!"
+        tone="error"
+        shell="zsh"
+        writable
+        commands={buildCommands(lang)}
+        notFound={t("term.notfound")}
+        prefill="zar open ~"
+        inputDelay={suggest ? "2.1s" : "1.2s"}
+    >
+        <p class="line" style="--delay: 0.2s"><span class="p">$</span>zar open {path}</p>
+        <p class="out err" style="--delay: 0.7s">{t("404.out")}</p>
+        {
+            suggest && tSuggest && (
+                <>
+                    <p class="line" style="--delay: 1.2s">
+                        <span class="p">$</span>lang --detect
+                    </p>
+                    <p class="out" style="--delay: 1.6s">
+                        → <a href={routes.home[suggest]}>{tSuggest("404.switch")}</a>
+                    </p>
+                </>
+            )
+        }
+    </Terminal>
+
+    <a class={styles.home} href={routes.home[lang]}>{t("404.home")}</a>
+</section>

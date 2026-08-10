@@ -1,0 +1,18 @@
+.notFound {
+    width: 90%;
+    max-width: 40rem;
+    min-height: 100dvh;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: calc(0.25rem * 8);
+    padding-block: calc(0.25rem * 28) calc(0.25rem * 12);
+
+    --term-screen-height: 14rem;
+
+    .home {
+        font-size: 0.875rem;
+    }
+}
