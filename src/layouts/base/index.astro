@@ -57,6 +57,7 @@ const jsonLd = JSON.stringify({
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content={t("meta.title")} />
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content={site.twitter} />
         <meta name="twitter:image" content={`${site.url}/og.png`} />
         <script type="application/ld+json" set:html={jsonLd} />
     </head>
