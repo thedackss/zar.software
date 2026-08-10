@@ -1,0 +1,227 @@
+.contact {
+    width: 90%;
+    max-width: 1280px;
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: calc(0.25rem * 16);
+    align-items: center;
+    padding-block: calc(0.25rem * 24);
+
+    h2 {
+        font-size: clamp(1.75rem, 3vw, 2.5rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        margin-bottom: calc(0.25rem * 3);
+
+        &::before {
+            content: "# ";
+            color: var(--color-accent);
+        }
+    }
+
+    .lead {
+        max-width: 34rem;
+        margin-bottom: calc(0.25rem * 10);
+
+        color: color-mix(in oklch, var(--color-text) 70%, transparent);
+    }
+
+    .formWrap {
+        position: relative;
+    }
+
+    // stacked contact-method cards: boxed icon, label + value, arrow button
+    .direct {
+        display: flex;
+        flex-direction: column;
+        gap: calc(0.25rem * 4);
+
+        .channel {
+            display: flex;
+            align-items: center;
+            gap: calc(0.25rem * 4);
+            padding: calc(0.25rem * 3.5) calc(0.25rem * 4);
+
+            border: 1px solid color-mix(in oklch, var(--color-text) 10%, transparent);
+            border-radius: 0.8rem;
+            background: color-mix(in oklch, var(--color-text) 2%, transparent);
+            color: var(--color-text);
+
+            transition: border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+            .iconBox {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: calc(0.25rem * 11);
+                height: calc(0.25rem * 11);
+                flex: none;
+
+                border: 1px solid color-mix(in oklch, var(--color-text) 12%, transparent);
+                border-radius: 0.6rem;
+                background: color-mix(in oklch, var(--color-text) 3%, transparent);
+                color: var(--color-accent);
+            }
+
+            .info {
+                display: flex;
+                flex-direction: column;
+                gap: calc(0.25rem * 0.5);
+                flex: 1;
+                min-width: 0;
+
+                .label {
+                    font-weight: 700;
+                    font-size: 0.95rem;
+                }
+
+                .value {
+                    font-size: 0.85rem;
+                    overflow-wrap: anywhere;
+
+                    color: var(--color-muted);
+                }
+            }
+
+            .go {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: calc(0.25rem * 9);
+                height: calc(0.25rem * 9);
+                flex: none;
+
+                border: 1px solid color-mix(in oklch, var(--color-text) 15%, transparent);
+                border-radius: 50%;
+                color: var(--color-muted);
+
+                transition:
+                    background 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                    color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                    border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            &:hover {
+                border-color: color-mix(in oklch, var(--color-accent) 60%, transparent);
+                color: var(--color-text);
+
+                .go {
+                    background: var(--color-accent);
+                    border-color: var(--color-accent);
+                    color: var(--color-void);
+                }
+            }
+        }
+    }
+
+    // form disabled behind construction tape until the contact API is live
+    .wip {
+        .form {
+            opacity: 0.4;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .tape {
+            position: absolute;
+            left: -3%;
+            right: -3%;
+            top: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: calc(0.25rem * 1.5);
+
+            transform: translateY(-50%) rotate(-4deg);
+            background: repeating-linear-gradient(
+                45deg,
+                var(--color-void) 0 calc(0.25rem * 4),
+                var(--color-accent) calc(0.25rem * 4) calc(0.25rem * 8)
+            );
+            border: 1px solid color-mix(in oklch, var(--color-accent) 40%, transparent);
+            box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.5);
+
+            span {
+                padding: calc(0.25rem * 1) calc(0.25rem * 3);
+
+                background: var(--color-accent);
+                color: var(--color-void);
+                font-size: 0.8rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+            }
+        }
+    }
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        gap: calc(0.25rem * 5);
+
+        label {
+            display: flex;
+            flex-direction: column;
+            gap: calc(0.25rem * 2);
+
+            font-size: 0.875rem;
+            color: var(--color-muted);
+        }
+
+        input,
+        textarea {
+            padding: calc(0.25rem * 3) calc(0.25rem * 4);
+
+            border: 1px solid color-mix(in oklch, var(--color-text) 15%, transparent);
+            border-radius: 0.5rem;
+            background: color-mix(in oklch, var(--color-text) 3%, transparent);
+            color: var(--color-text);
+            font-size: 0.95rem;
+            resize: vertical;
+
+            transition: border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+            &:focus {
+                outline: none;
+                border-color: color-mix(in oklch, var(--color-accent) 70%, transparent);
+            }
+        }
+
+        button {
+            padding: calc(0.25rem * 3.25) calc(0.25rem * 5.25);
+            width: fit-content;
+
+            border: none;
+            border-radius: 0.5rem;
+            background: var(--color-accent);
+            color: var(--color-void);
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+
+            transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+            &:hover {
+                opacity: 0.85;
+            }
+
+            &:disabled {
+                opacity: 0.5;
+                cursor: default;
+            }
+        }
+
+        .status {
+            min-height: 1lh;
+            font-size: 0.875rem;
+
+            color: color-mix(in oklch, var(--color-accent) 90%, transparent);
+        }
+    }
+
+    @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+        gap: calc(0.25rem * 10);
+    }
+}
