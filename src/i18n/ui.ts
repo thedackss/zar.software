@@ -63,9 +63,13 @@ export const ui = {
             "Soporte continuo, mejoras y desarrollo e integración de APIs para conectar tus sistemas.",
 
         "projects.title": "Proyectos",
+        "projects.pan.desc":
+            "Panadería con 60+ años de tradición: pedidos en línea, sucursales y pedidos por WhatsApp.",
         "projects.zakielpc.desc":
             "Sitio para creador de contenido: catálogo de PCs gamer, precios y cotización.",
         "projects.zarmx.desc": "Hub personal minimalista.",
+        "projects.nomi.desc":
+            "Extensión para Chrome y Firefox: descarga álbumes e historiales de chat de tu Nomi.",
         "projects.auth.desc":
             "Servicio central de autenticación para las apps zar: sesiones, roles y panel de administración.",
         "projects.diego.desc": "Portafolio personal v1.",
@@ -154,9 +158,13 @@ export const ui = {
             "Ongoing support, improvements, and API development and integration to connect your systems.",
 
         "projects.title": "Projects",
+        "projects.pan.desc":
+            "Bakery with 60+ years of tradition: online ordering, branches and WhatsApp orders.",
         "projects.zakielpc.desc":
             "Site for a content creator: gamer PC catalog, pricing and quotes.",
         "projects.zarmx.desc": "Minimalist personal hub.",
+        "projects.nomi.desc":
+            "Chrome and Firefox extension: download your Nomi albums and chat histories.",
         "projects.auth.desc":
             "Central authentication service for the zar apps: sessions, roles and an admin panel.",
         "projects.diego.desc": "Personal portfolio v1.",
