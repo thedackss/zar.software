@@ -93,6 +93,39 @@
         }
     }
 
+    .card[data-overflow] {
+        display: none;
+    }
+
+    .more {
+        display: block;
+        margin: calc(0.25rem * 8) auto 0;
+        padding: calc(0.25rem * 2.5) calc(0.25rem * 6);
+
+        font-size: 0.875rem;
+        font-family: inherit;
+        color: var(--color-muted);
+
+        background: none;
+        border: 1px solid color-mix(in oklch, var(--color-text) 12%, transparent);
+        border-radius: 999px;
+        cursor: pointer;
+
+        transition:
+            color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+            border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+        &::before {
+            content: "+ ";
+            color: var(--color-accent);
+        }
+
+        &:hover {
+            color: var(--color-text);
+            border-color: color-mix(in oklch, var(--color-accent) 40%, transparent);
+        }
+    }
+
     @media (max-width: 720px) {
         .grid {
             grid-template-columns: 1fr;

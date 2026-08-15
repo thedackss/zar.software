@@ -63,6 +63,7 @@ export const ui = {
             "Soporte continuo, mejoras y desarrollo e integración de APIs para conectar tus sistemas.",
 
         "projects.title": "Proyectos",
+        "projects.more": "mostrar más",
         "projects.pan.desc":
             "Panadería con 60+ años de tradición: pedidos en línea, sucursales y pedidos por WhatsApp.",
         "projects.zakielpc.desc":
@@ -158,6 +159,7 @@ export const ui = {
             "Ongoing support, improvements, and API development and integration to connect your systems.",
 
         "projects.title": "Projects",
+        "projects.more": "show more",
         "projects.pan.desc":
             "Bakery with 60+ years of tradition: online ordering, branches and WhatsApp orders.",
         "projects.zakielpc.desc":

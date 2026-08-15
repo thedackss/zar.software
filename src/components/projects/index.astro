@@ -25,8 +25,14 @@ const projects = [
 
     <div class={styles.grid}>
         {
-            projects.map((project) => (
-                <a href={project.href} target="_blank" rel="noopener noreferrer" class={styles.card}>
+            projects.map((project, index) => (
+                <a
+                    href={project.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class={styles.card}
+                    data-overflow={index >= 4 ? "" : undefined}
+                >
                     <span class={styles.shot}>
                         <img
                             src={`/projects/${project.id}.webp`}
@@ -56,4 +62,22 @@ const projects = [
             ))
         }
     </div>
+
+    {
+        projects.length > 4 && (
+            <button type="button" class={styles.more} data-more>
+                {t("projects.more")}
+            </button>
+        )
+    }
 </section>
+
+<script>
+    // "Show more" reveals the cards past the first four, then goes away
+    const more = document.querySelector<HTMLButtonElement>("[data-more]");
+    more?.addEventListener("click", () => {
+        for (const card of document.querySelectorAll("[data-overflow]"))
+            card.removeAttribute("data-overflow");
+        more.remove();
+    });
+</script>
