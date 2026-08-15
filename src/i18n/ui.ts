@@ -64,8 +64,10 @@ export const ui = {
 
         "projects.title": "Proyectos",
         "projects.zakielpc.desc":
-            "Sitio para creador de contenido - catálogo de PCs gamer, precios y cotización.",
+            "Sitio para creador de contenido: catálogo de PCs gamer, precios y cotización.",
         "projects.zarmx.desc": "Hub personal minimalista.",
+        "projects.auth.desc":
+            "Servicio central de autenticación para las apps zar: sesiones, roles y panel de administración.",
         "projects.diego.desc": "Portafolio personal v1.",
 
         "contact.title": "Contacto",
@@ -153,8 +155,10 @@ export const ui = {
 
         "projects.title": "Projects",
         "projects.zakielpc.desc":
-            "Site for a content creator - gamer PC catalog, pricing and quotes.",
+            "Site for a content creator: gamer PC catalog, pricing and quotes.",
         "projects.zarmx.desc": "Minimalist personal hub.",
+        "projects.auth.desc":
+            "Central authentication service for the zar apps: sessions, roles and an admin panel.",
         "projects.diego.desc": "Personal portfolio v1.",
 
         "contact.title": "Contact",
