@@ -3,7 +3,7 @@ export type Lang = (typeof languages)[number];
 
 export const ui = {
     es: {
-        "meta.title": "zar.software — páginas web a la medida",
+        "meta.title": "zar.software | páginas web a la medida",
         "meta.description":
             "Diseño y desarrollo de páginas web: landings, portafolios, tiendas y aplicaciones a la medida.",
 
@@ -19,7 +19,7 @@ export const ui = {
         "hero.cta.primary": "Quiero mi página",
         "hero.cta.secondary": "Ver proyectos",
 
-        "term.whoami.out": "Diego Zamora — desarrollador web",
+        "term.whoami.out": "Diego Zamora - desarrollador web",
         "term.services.l1": "SITIOS ....... landings · portafolios · tiendas",
         "term.services.l2": "APPS ......... aplicaciones web a la medida",
         "term.services.l3": "EXTRAS ....... SEO · mantenimiento · APIs",
@@ -29,8 +29,8 @@ export const ui = {
         "term.cmd.services": "zar --servicios",
         "term.help.l1": "ayuda ............ mostrar esta lista",
         "term.help.l2": "whoami ........... quién está detrás de zar",
-        "term.help.l3": "zar .............. la CLI de zar — ver 'zar --help'",
-        "term.help.l4": "lang ............. idioma — ver 'lang --help'",
+        "term.help.l3": "zar .............. la CLI de zar - ver 'zar --help'",
+        "term.help.l4": "lang ............. idioma - ver 'lang --help'",
         "term.help.l5": "clear ............ limpiar la terminal",
         "term.lang.bare": "escribe 'lang --help'",
         "term.langhelp.l1": "--help ........... mostrar esta lista",
@@ -44,9 +44,9 @@ export const ui = {
         "term.zarhelp.l4": "deploy ........... publicar tu sitio",
         "term.zarhelp.l5": "open <ruta> ...... abrir una ruta (~ = inicio)",
         "term.open.usage": "uso: zar open <ruta>",
-        "term.info.l1": "zar.software — páginas web a la medida",
+        "term.info.l1": "zar.software - páginas web a la medida",
         "term.info.l2": "por Diego Zamora (@thedackss)",
-        "term.notfound": "zsh: {cmd}: comando no encontrado — escribe 'ayuda'",
+        "term.notfound": "zsh: {cmd}: comando no encontrado - escribe 'ayuda'",
 
         "services.title": "Servicios",
         "services.web.title": "Sitios web",
@@ -64,7 +64,7 @@ export const ui = {
 
         "projects.title": "Proyectos",
         "projects.zakielpc.desc":
-            "Sitio para creador de contenido — catálogo de PCs gamer, precios y cotización.",
+            "Sitio para creador de contenido - catálogo de PCs gamer, precios y cotización.",
         "projects.zarmx.desc": "Hub personal minimalista.",
         "projects.diego.desc": "Portafolio personal v1.",
 
@@ -81,7 +81,7 @@ export const ui = {
         "contact.card.email": "Correo",
         "contact.email": "contacto@zar.software",
 
-        "404.out": "error: 404 — página no encontrada",
+        "404.out": "error: 404 - página no encontrada",
         "404.home": "volver al inicio",
         "404.switch": "ver en español",
 
@@ -92,7 +92,7 @@ export const ui = {
         "footer.rights": "© 2026 Zar",
     },
     en: {
-        "meta.title": "zar.software — custom-built websites",
+        "meta.title": "zar.software | custom-built websites",
         "meta.description":
             "Web design and development: landings, portfolios, stores and custom web applications.",
 
@@ -108,7 +108,7 @@ export const ui = {
         "hero.cta.primary": "I want my website",
         "hero.cta.secondary": "See projects",
 
-        "term.whoami.out": "Diego Zamora — web developer",
+        "term.whoami.out": "Diego Zamora - web developer",
         "term.services.l1": "SITES ........ landings · portfolios · stores",
         "term.services.l2": "APPS ......... custom web applications",
         "term.services.l3": "EXTRAS ....... SEO · maintenance · APIs",
@@ -118,8 +118,8 @@ export const ui = {
         "term.cmd.services": "zar --services",
         "term.help.l1": "help ............. show this list",
         "term.help.l2": "whoami ........... who is behind zar",
-        "term.help.l3": "zar .............. the zar CLI — see 'zar --help'",
-        "term.help.l4": "lang ............. language — see 'lang --help'",
+        "term.help.l3": "zar .............. the zar CLI - see 'zar --help'",
+        "term.help.l4": "lang ............. language - see 'lang --help'",
         "term.help.l5": "clear ............ clear the terminal",
         "term.lang.bare": "type 'lang --help'",
         "term.langhelp.l1": "--help ........... show this list",
@@ -133,9 +133,9 @@ export const ui = {
         "term.zarhelp.l4": "deploy ........... ship your site",
         "term.zarhelp.l5": "open <path> ...... open a path (~ = home)",
         "term.open.usage": "usage: zar open <path>",
-        "term.info.l1": "zar.software — custom-built websites",
+        "term.info.l1": "zar.software - custom-built websites",
         "term.info.l2": "by Diego Zamora (@thedackss)",
-        "term.notfound": "zsh: {cmd}: command not found — type 'help'",
+        "term.notfound": "zsh: {cmd}: command not found - type 'help'",
 
         "services.title": "Services",
         "services.web.title": "Websites",
@@ -153,7 +153,7 @@ export const ui = {
 
         "projects.title": "Projects",
         "projects.zakielpc.desc":
-            "Site for a content creator — gamer PC catalog, pricing and quotes.",
+            "Site for a content creator - gamer PC catalog, pricing and quotes.",
         "projects.zarmx.desc": "Minimalist personal hub.",
         "projects.diego.desc": "Personal portfolio v1.",
 
@@ -165,12 +165,12 @@ export const ui = {
         "contact.form.send": "Send",
         "contact.form.sending": "Sending…",
         "contact.form.sent": "Message sent! I'll contact you soon.",
-        "contact.form.error": "Something went wrong — try again or write to me directly.",
+        "contact.form.error": "Something went wrong - try again or write to me directly.",
         "contact.form.wip": "under construction",
         "contact.card.email": "Email",
         "contact.email": "contact@zar.software",
 
-        "404.out": "error: 404 — page not found",
+        "404.out": "error: 404 - page not found",
         "404.home": "back to home",
         "404.switch": "view in English",
 

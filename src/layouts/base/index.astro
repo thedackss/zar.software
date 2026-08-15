@@ -39,7 +39,7 @@ const jsonLd = JSON.stringify({
         <meta name="theme-color" content="#050505" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="generator" content={Astro.generator} />
-        <title>{title ? `${title} — ${site.name}` : t("meta.title")}</title>
+        <title>{title ? `${title} | ${site.name}` : t("meta.title")}</title>
         <meta name="description" content={t("meta.description")} />
         <link rel="canonical" href={`${site.url}${routes[page][lang]}`} />
         <link rel="alternate" hreflang="es" href={`${site.url}${routes[page].es}`} />

@@ -13,7 +13,7 @@ const { suggest, target } = Astro.props;
 const t = useTranslations(suggest);
 
 const cmd = "lang --detect";
-const detected = suggest === "en" ? "en — english" : "es — español";
+const detected = suggest === "en" ? "en - english" : "es - español";
 ---
 
 <aside
