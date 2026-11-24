@@ -212,6 +212,15 @@
             }
         }
 
+        // honeypot: off-screen, not display:none (some bots skip hidden fields)
+        .hp {
+            position: absolute;
+            left: -10000px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+
         .status {
             min-height: 1lh;
             font-size: 0.875rem;

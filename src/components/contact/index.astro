@@ -26,6 +26,12 @@ const t = useTranslations(lang);
                 data-error={t("contact.form.error")}
                 data-send={t("contact.form.send")}
             >
+                <input type="hidden" name="lang" value={lang} />
+                {/* Honeypot: hidden from people, filled by bots; auth drops those. */}
+                <label class={styles.hp} aria-hidden="true">
+                    website
+                    <input type="text" name="website" tabindex="-1" autocomplete="off" />
+                </label>
                 <label>
                     {t("contact.form.name")}
                     <input
@@ -170,13 +176,22 @@ const t = useTranslations(lang);
             const response = await fetch(form.action, {
                 method: "POST",
                 body: new FormData(form),
+                headers: { Accept: "application/json" },
             });
-            if (!response.ok) throw new Error(String(response.status));
+            if (!response.ok) {
+                // Validation messages from auth come back localized (X-Lang).
+                const body = (await response.json().catch(() => null)) as {
+                    message?: string;
+                } | null;
+                throw new Error(body?.message || String(response.status));
+            }
 
             status.textContent = form.dataset.sent ?? "";
             form.reset();
-        } catch {
-            status.textContent = form.dataset.error ?? "";
+        } catch (error) {
+            const detail =
+                error instanceof Error && !/^\d+$/.test(error.message) ? error.message : "";
+            status.textContent = detail || form.dataset.error || "";
         } finally {
             button.disabled = false;
             button.textContent = form.dataset.send ?? "";
