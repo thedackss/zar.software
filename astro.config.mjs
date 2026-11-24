@@ -5,6 +5,11 @@ import node from "@astrojs/node";
 // https://astro.build/config
 export default defineConfig({
     output: "server",
+    // Astro's origin check compares Origin against the request URL, which is
+    // plain http behind the Cloudflare tunnel + Traefik, so every browser
+    // form POST (Origin https://...) would be refused. The site keeps no
+    // session state; the contact relay is throttled per visitor upstream.
+    security: { checkOrigin: false },
     adapter: node({
         mode: "standalone",
     }),
