@@ -8,10 +8,10 @@ export const site = {
     whatsappDisplay: "917 104 0172",
     // How long "no" hides the language-suggestion modal
     langSuggestSnoozeHours: 12,
-    // TODO: global zar API service (receives the contact form when it exists)
-    contactEndpoint: "https://api.zar.mx/contact",
-    // TODO: flip to true once the contact API is live (removes the tape)
-    contactFormReady: false,
+    // Same-origin relay (src/pages/api/contact.ts) to auth.zar.mx's /contact
+    contactEndpoint: "/api/contact",
+    // false shows the "under construction" tape over the form
+    contactFormReady: true,
     socials: [
         { label: "github", href: "https://github.com/thedackss" },
         { label: "x", href: "https://x.com/thedackss" },
